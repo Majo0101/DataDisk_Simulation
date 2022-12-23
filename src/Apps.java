@@ -38,6 +38,7 @@ public class Apps {
     // TODO App write file
     void writeFile(String name, String data){
         System.out.println("write" + name + data);
+        service.writeData(name, data);
     }
 
     // TODO App bin

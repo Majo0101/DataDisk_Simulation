@@ -1,5 +1,8 @@
+import java.util.Arrays;
+
 public class Services {
 
+    private final static String EMPTY = "";
     private final static int OK = 0;
     private final static int ERROR = -1;
     private final static int NAME_EXIST = 1;
@@ -31,17 +34,62 @@ public class Services {
         return OK;
     }
 
+    public void writeData(String fileName, String inputData){
+        String emptyName = "--------";
+        String emptyData = "----------------";
+        String tmpString = EMPTY;
+        int tmpNode = getFreeNode();
+        int tmpData = getFreeData();
+
+        if (tmpNode != ERROR && tmpData != ERROR){
+            fileName = fileName + emptyName.substring(fileName.length());
+            node[tmpNode].setName(fileName);
+            node[tmpNode].setInUse(true);
+
+            if (inputData.length() <= 16){
+                inputData = inputData + emptyData.substring(inputData.length());
+                data[tmpData].setData(inputData);
+                data[tmpData].setInUse(true);
+                node[tmpNode].addAddress(tmpData);
+            }else{
+
+            }
+        }
+
+
+
+    }
+
+    private int getFreeNode(){
+        for (Node value : node) {
+            if (!value.isInUse() && !value.isInBin()){
+                return value.getInOrder();
+            }
+        }
+        return ERROR;
+    }
+
+    private int getFreeData(){
+        for (DataBlock value : data) {
+            if (!value.isInUse()){
+                return value.getInOrder();
+            }
+        }
+        return ERROR;
+    }
+
     public void dump(){
-        String addresses = "";
+        String addresses = EMPTY;
 
         for (Node value : node) {
             System.out.println("\nNODE_NAME: " + value.getName());
             System.out.println("NODE_USED: " + value.isInUse());
             System.out.println("NODE_BIN : " + value.isInBin());
             for (int i = 0; i < value.sizeAddress(); i++){
-                addresses += " " + value.indexOfAddress(i);
+                addresses += value.indexOfAddress(i) + " ";
             }
             System.out.println("NODE_ADDR: " + addresses);
+            addresses = EMPTY;
         }
 
         for (DataBlock value: data) {
@@ -97,4 +145,9 @@ public class Services {
         return free;
     }
 
+    // to string function
+    @Override
+    public String toString() {
+        return "Services{}";
+    }
 }
