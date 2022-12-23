@@ -13,6 +13,7 @@ public class Services {
     Node[] node = new Node[5];
     DataBlock[] data = new DataBlock[10];
 
+    // TODO Constructor
     Services(){
         for (int i = 0;i < node.length; i++){
             node[i] = new Node(false, i, EMPTY_NAME, false);
@@ -159,6 +160,43 @@ public class Services {
             }
         }
         return free;
+    }
+
+    // TODO Return Data from Node by index - overload
+    public String getData(int index){
+        StringBuilder tmp = new StringBuilder(EMPTY);
+
+        for (Node value : node) {
+            if (value.getInOrder() == index) {
+                for (int i = 0; i < value.sizeAddress(); i++){
+                    for (DataBlock valueData: data){
+                        if (valueData.getInOrder() == value.indexOfAddress(i)){
+                            tmp.append(valueData.getData());
+                        }
+                    }
+                }
+            }
+        }
+        return tmp.toString().replaceAll("-","");
+    }
+
+    // TODO Return Data from Node by name - overload
+    public String getData(String name){
+        StringBuilder tmp = new StringBuilder(EMPTY);
+        name = name + EMPTY_NAME.substring(name.length());
+
+        for (Node value : node) {
+            if (value.getName().equals(name)) {
+                for (int i = 0; i < value.sizeAddress(); i++){
+                    for (DataBlock valueData: data){
+                        if (valueData.getInOrder() == value.indexOfAddress(i)){
+                            tmp.append(valueData.getData());
+                        }
+                    }
+                }
+            }
+        }
+        return tmp.toString().replaceAll("-","");
     }
 
     // to string function

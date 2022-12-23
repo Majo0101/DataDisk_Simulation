@@ -29,7 +29,16 @@ public class Apps {
 
     // TODO App Copy file
     void copyFile(String source, String target){
-        System.out.println("copy" + source + target);
+        if (service.checkInputName(source) == NAME_EXIST){
+            if (service.getData(source).length() <= (service.freeData() * 16)){
+                service.writeData(target, service.getData(source));
+                System.out.println("> The file was copied");
+            }else{
+                System.out.println("> The file is larger than the available memory!");
+            }
+        }else{
+            System.out.println("> File not found");
+        }
     }
 
     // TODO App average capacity
