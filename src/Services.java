@@ -2,13 +2,13 @@ import java.util.Arrays;
 
 public class Services {
 
-    private final static String EMPTY = "";
-    private final static String EMPTY_NAME = "--------";
-    private final static String EMPTY_DATA = "----------------";
-    private final static int OK = 0;
-    private final static int ERROR = -1;
-    private final static int NAME_EXIST = 1;
-    private final static int LONG_NAME = 2;
+    private final static String EMPTY = ""; // Constant
+    private final static String EMPTY_NAME = "--------"; // Constant
+    private final static String EMPTY_DATA = "----------------"; // Constant
+    private final static int OK = 0; // Constant
+    private final static int ERROR = -1; // Constant
+    private final static int NAME_EXIST = 1; // Constant
+    private final static int LONG_NAME = 2; // Constant
 
     Node[] node = new Node[5];
     DataBlock[] data = new DataBlock[10];
@@ -22,6 +22,18 @@ public class Services {
         for (int i = 0; i < data.length; i++){
             data[i] = new DataBlock(i, false,  EMPTY_DATA);
         }
+    }
+
+    // TODO Remove file
+    public int remove(String name){
+        name = name + EMPTY_NAME.substring(name.length());
+        for (Node value : node) {
+            if (value.getName().equals(name)){
+                value.setInBin(true);
+                return OK;
+            }
+        }
+        return ERROR;
     }
 
     // TODO Check input filename

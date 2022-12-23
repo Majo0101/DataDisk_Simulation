@@ -14,15 +14,16 @@ public class Terminal {
 
     // TODO Print menu
     private void TerminalMenu(){
-            System.out.println("> m - Manual");
-            System.out.println("> r - Remove file");
-            System.out.println("> d - Dump disk");
-            System.out.println("> c - Copy file");
-            System.out.println("> a - Average capacity");
-            System.out.println("> w - Write file");
-            System.out.println("> b - Bin");
-            System.out.println("> f - Format disk");
-            System.out.println("> e - Exit");
+        System.out.println("> m - Manual");
+        System.out.println("> r - Remove file");
+        System.out.println("> d - Dump disk");
+        System.out.println("> c - Copy file");
+        System.out.println("> a - Average capacity");
+        System.out.println("> w - Write file");
+        System.out.println("> p - Print file");
+        System.out.println("> b - Bin");
+        System.out.println("> f - Format disk");
+        System.out.println("> e - Exit");
     }
 
     // TODO Call App function by input in method
@@ -92,6 +93,18 @@ public class Terminal {
                     System.out.println("> Enter " + fileName + " data");
                     userIn = userInput.nextLine();
                     app.writeFile(fileName, userIn);
+                }catch (InputMismatchException e){
+                    System.out.println("> Wrong input");
+                }
+                userIn = RESET_INPUT;
+
+                // If P for print data
+            }else if (userIn.equals("P") || userIn.equals("p")){
+                System.out.println("> Enter file name");
+                try{
+                    System.out.print("< ");
+                    userIn = userInput.nextLine();
+                    app.print(userIn);
                 }catch (InputMismatchException e){
                     System.out.println("> Wrong input");
                 }

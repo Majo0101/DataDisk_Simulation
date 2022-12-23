@@ -4,10 +4,10 @@ import java.util.Scanner;
 public class Apps {
 
     private final static String RESET_INPUT = ""; // Constant
-    private final static int OK = 0;
-    private final static int ERROR = -1;
-    private final static int NAME_EXIST = 1;
-    private final static int LONG_NAME = 2;
+    private final static int OK = 0; // Constant
+    private final static int ERROR = -1; // Constant
+    private final static int NAME_EXIST = 1; // Constant
+    private final static int LONG_NAME = 2; // Constant
     private final Services service = new Services(); // Services layer
 
     // TODO Constructor
@@ -15,20 +15,27 @@ public class Apps {
     }
 
     // TODO App remove file
-    void removeFile(String fileName){
-        System.out.println("remove" + fileName);
-        System.out.println(service.checkInputName(fileName));
+    public void removeFile(String name){
+        if (service.checkInputName(name) == NAME_EXIST){
+            if (service.remove(name) == OK){
+                System.out.println("> File was removed");
+            }else{
+                System.out.println("> Somethings went wrong");
+            }
+        }else{
+            System.out.println("> File not found");
+        }
     }
 
     // TODO App dump disk
-    void dumpDisk(){
+    public void dumpDisk(){
         System.out.print("-------------------DISK---------------------");
         service.dump();
         System.out.println("-------------------END----------------------");
     }
 
     // TODO App Copy file
-    void copyFile(String source, String target){
+    public void copyFile(String source, String target){
         if (service.checkInputName(source) == NAME_EXIST){
             if (service.getData(source).length() <= (service.freeData() * 16)){
                 service.writeData(target, service.getData(source));
@@ -42,14 +49,14 @@ public class Apps {
     }
 
     // TODO App average capacity
-    void averageCapacity(){
+    public void averageCapacity(){
         System.out.println("> FREE BYTES: " + service.freeBytes() + " / 160"); // Call freeBytes Service
         System.out.println("> FREE DATA: " + service.freeData() + " / 10"); // Call freeData Service
         System.out.println("> FREE NODES: " + service.freeNodes() + " / 5"); // Call freeNodes Service
     }
 
     // TODO App write file
-    void writeFile(String name, String data){
+    public void writeFile(String name, String data){
         if (service.checkInputName(name) == OK){
             if (data.length() <= (service.freeData() * 16)){
                 service.writeData(name, data);
@@ -61,13 +68,23 @@ public class Apps {
         }
     }
 
+    // TODO App Print file
+    public void print(String name){
+        if (service.checkInputName(name) == NAME_EXIST){
+            System.out.println("> NAME: " + name);
+            System.out.println("> DATA: " + service.getData(name));
+        }else{
+            System.out.println("> File not found");
+        }
+    }
+
     // TODO App bin
     void bin(){
         System.out.println("Bin");
     }
 
     // TODO App format disk
-    void formatDisk(){
+    public void formatDisk(){
         String input = RESET_INPUT;
         Scanner userInput = new Scanner(System.in); // Console input object
 
