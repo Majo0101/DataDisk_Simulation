@@ -8,6 +8,7 @@ public class Node {
     private boolean inBin;
     private final ArrayList<Integer> address;
 
+    // TODO Constructor
     Node(boolean inUse, int inOrder, String name, boolean inBin){
         this.inUse = inUse;
         this.inOrder = inOrder;
@@ -16,6 +17,7 @@ public class Node {
         this.address = new ArrayList<Integer>();
     }
 
+    // TODO Getters && Setters
     public void setInUse(boolean inUse){
         this.inUse = inUse;
     }
@@ -53,11 +55,22 @@ public class Node {
     }
 
     public int indexOfAddress(int index){
-        return address.indexOf(index);
+        return address.get(index);
     }
 
     public void flushAddress(){
         address.clear();
     }
 
+    // to string function
+    @Override
+    public String toString() {
+        return "Node{" +
+                "inUse=" + inUse +
+                ", inOrder=" + inOrder +
+                ", name='" + name + '\'' +
+                ", inBin=" + inBin +
+                ", address=" + address +
+                '}';
+    }
 }

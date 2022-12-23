@@ -4,6 +4,10 @@ import java.util.Scanner;
 public class Apps {
 
     private final static String RESET_INPUT = ""; // Constant
+    private final static int OK = 0;
+    private final static int ERROR = -1;
+    private final static int NAME_EXIST = 1;
+    private final static int LONG_NAME = 2;
     private final Services service = new Services(); // Services layer
 
     // TODO Constructor
@@ -37,8 +41,15 @@ public class Apps {
 
     // TODO App write file
     void writeFile(String name, String data){
-        System.out.println("write" + name + data);
-        service.writeData(name, data);
+        if (service.checkInputName(name) == OK){
+            if (data.length() <= (service.freeData() * 16)){
+                service.writeData(name, data);
+            }else{
+                System.out.println("> The file is larger than the available memory!");
+            }
+        }else{
+            System.out.println("> Name exist!");
+        }
     }
 
     // TODO App bin
