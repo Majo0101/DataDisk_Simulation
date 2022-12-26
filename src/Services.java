@@ -10,8 +10,8 @@ public class Services {
     private final static int NAME_EXIST = 1; // Constant
     private final static int LONG_NAME = 2; // Constant
 
-    Node[] node = new Node[5];
-    DataBlock[] data = new DataBlock[10];
+    private final Node[] node = new Node[5];
+    private final DataBlock[] data = new DataBlock[10];
 
     // TODO Constructor
     Services(){
@@ -174,6 +174,58 @@ public class Services {
         return free;
     }
 
+    // TODO Check files in Bin
+    public void inBin(){
+        int counter = 0;
+
+        for (Node value : node){
+            if (value.isInBin()){
+                System.out.println(">-> " + value.getName().replaceAll("-",""));
+                counter++;
+            }
+        }
+
+        // is 0 print this
+        if (counter == 0){
+            System.out.println(">-> Empty bin");
+        }
+    }
+
+    // TODO restore file from bin
+    public void restoreFile(String name){
+        name = name + EMPTY_NAME.substring(name.length());
+
+        for (Node value : node){
+            if (value.getName().equals(name)){
+                value.setInBin(false);
+                break;
+            }
+        }
+    }
+
+    // TODO remove file from bin
+    public void removeFile(String name){
+        name = name + EMPTY_NAME.substring(name.length());
+
+        for (Node value : node){
+            if (value.getName().equals(name)){
+                value.setInBin(false);
+                value.setInUse(false);
+                value.setName(EMPTY_NAME);
+                for (int i = 0; i < value.sizeAddress(); i++){
+                    for (DataBlock valData : data){
+                        if (value.indexOfAddress(i) == valData.getInOrder()){
+                            valData.setData(EMPTY_DATA);
+                            valData.setInUse(false);
+                        }
+                    }
+                }
+                value.flushAddress();
+                break;
+            }
+        }
+    }
+
     // TODO Return Data from Node by index - overload
     public String getData(int index){
         StringBuilder tmp = new StringBuilder(EMPTY);
@@ -210,6 +262,8 @@ public class Services {
         }
         return tmp.toString().replaceAll("-","");
     }
+
+
 
     // to string function
     @Override

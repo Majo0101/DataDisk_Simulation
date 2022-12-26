@@ -58,10 +58,14 @@ public class Apps {
     // TODO App write file
     public void writeFile(String name, String data){
         if (service.checkInputName(name) == OK){
-            if (data.length() <= (service.freeData() * 16)){
-                service.writeData(name, data);
+            if (service.freeNodes() != 0){
+                if (data.length() <= (service.freeData() * 16)){
+                    service.writeData(name, data);
+                }else{
+                    System.out.println("> The file is larger than the available memory!");
+                }
             }else{
-                System.out.println("> The file is larger than the available memory!");
+                System.out.println("> No space for the new file!");
             }
         }else{
             System.out.println("> Name exist!");
@@ -80,7 +84,66 @@ public class Apps {
 
     // TODO App bin
     void bin(){
-        System.out.println("Bin");
+        String input = RESET_INPUT;
+        Scanner userInput = new Scanner(System.in); // Console input object
+
+        System.out.println(">-> s - Show files in bin");
+        System.out.println(">-> r - Restore file from bin");
+        System.out.println(">-> d - Remove file from bin");
+        System.out.println(">-> e - Exit");
+        try{
+            System.out.print("<-< ");
+            input = userInput.nextLine();
+        }catch (InputMismatchException e){
+            System.out.println(">-> Wrong input");
+        }
+
+        if (input.equals("s") || input.equals("S")){
+            System.out.println(">-> -------------BIN--------------");
+            service.inBin();
+            System.out.println(">-> -------------BIN--------------");
+            System.out.println("> Main Menu");
+        }else if(input.equals("r") || input.equals("R")){
+            input = RESET_INPUT;
+            System.out.println(">-> Enter file name for restore file");
+
+            try{
+                System.out.print("<-< ");
+                input = userInput.nextLine();
+            }catch (InputMismatchException e){
+                System.out.println(">-> Wrong input");
+            }
+
+            if (service.checkInputName(input) == NAME_EXIST){
+                service.restoreFile(input);
+                System.out.println(">-> File was restored...");
+                System.out.println("> Main menu");
+            }else{
+                System.out.println(">-> File not found");
+            }
+
+        }else if(input.equals("d") || input.equals("D")){
+            input = RESET_INPUT;
+            System.out.println(">-> Enter file name for remove file");
+
+            try{
+                System.out.print("<-< ");
+                input = userInput.nextLine();
+            }catch (InputMismatchException e){
+                System.out.println(">-> Wrong input");
+            }
+
+            if (service.checkInputName(input) == NAME_EXIST){
+                service.removeFile(input);
+                System.out.println(">-> File was removed...");
+                System.out.println("> Main menu");
+            }else{
+                System.out.println(">-> File not found");
+            }
+
+        }else{
+            System.out.println(">-> You will be returned to the main menu.");
+        }
     }
 
     // TODO App format disk
